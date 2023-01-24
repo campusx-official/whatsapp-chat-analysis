@@ -24,7 +24,7 @@ if uploaded_file is not None:
         # Stats Area
         num_messages, words, num_media_messages, num_links = helper.fetch_stats(selected_user,df)
         st.title("Top Statistics")
-        col1, col2, col3, col4 = st.beta_columns(4)
+        col1, col2, col3, col4 = st.columns(4)
 
         with col1:
             st.header("Total Messages")
@@ -57,7 +57,7 @@ if uploaded_file is not None:
 
         # activity map
         st.title('Activity Map')
-        col1,col2 = st.beta_columns(2)
+        col1,col2 = st.columns(2)
 
         with col1:
             st.header("Most busy day")
@@ -87,7 +87,7 @@ if uploaded_file is not None:
             x,new_df = helper.most_busy_users(df)
             fig, ax = plt.subplots()
 
-            col1, col2 = st.beta_columns(2)
+            col1, col2 = st.columns(2)
 
             with col1:
                 ax.bar(x.index, x.values,color='red')
@@ -118,7 +118,7 @@ if uploaded_file is not None:
         emoji_df = helper.emoji_helper(selected_user,df)
         st.title("Emoji Analysis")
 
-        col1,col2 = st.beta_columns(2)
+        col1,col2 = st.columns(2)
 
         with col1:
             st.dataframe(emoji_df)
