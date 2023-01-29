@@ -126,6 +126,22 @@ if uploaded_file is not None:
             fig,ax = plt.subplots()
             ax.pie(emoji_df[1].head(),labels=emoji_df[0].head(),autopct="%0.2f")
             st.pyplot(fig)
+            
+        #Sentiments analysis
+        sent_df,x= helper.get_sentiments(selected_user,df)
+        st.title("Sentiments Analysis")
+        fig1, ax = plt.subplots()
+
+        col1, col2 = st.columns(2)
+
+        with col1:
+            st.dataframe(sent_df)
+
+        with col2:
+            ax.bar(x.index, x.values, color='red')
+            plt.xticks(rotation='vertical')
+            st.pyplot(fig1)
+    
 
 
 

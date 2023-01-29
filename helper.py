@@ -138,6 +138,34 @@ def activity_heatmap(selected_user,df):
 
     return user_heatmap
 
+def get_sentiments(selected_user,df):
+    if selected_user != 'Overall':
+        df = df[df['user'] == selected_user]
+   
+    df = df[df['user'] != 'group_notification']
+    df = df[df['message'] != '<Media omitted>\n']
+
+    from textblob import TextBlob
+    def cal_polarity(tweet):
+        return TextBlob(tweet).sentiment.polarity
+
+    df['Sentiments'] = df['message'].apply(cal_polarity)
+
+    def segmentation(sentiment):
+        if sentiment > 0:
+            return 'positive'
+        elif sentiment == 0:
+            return 'neutral'
+        else:
+            return 'negative'
+
+    df["Segmentation"] = df["Sentiments"].apply(segmentation)
+    x = df['Segmentation'].value_counts().head(3)
+
+    df=df[["user","message","Segmentation"]]
+
+    return df,x
+
 
 
 
