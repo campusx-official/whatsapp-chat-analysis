@@ -15,7 +15,7 @@ if uploaded_file is not None:
     user_list = df['user'].unique().tolist()
     user_list.remove('Group_Notification')
     user_list.sort()
-    user_list.insert(0,"Overall")
+    user_list.insert(0,"overall")
 
     selected_user = st.sidebar.selectbox("Show analysis wrt",user_list)
 
