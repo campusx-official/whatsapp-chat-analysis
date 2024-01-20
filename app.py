@@ -56,7 +56,7 @@ if uploaded_file is not None:
         st.pyplot(fig)
 
         # activity map
-        st.title('Activity Map')
+        st.title('Activity Maps')
         col1,col2 = st.columns(2)
 
         with col1:
