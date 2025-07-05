@@ -3,6 +3,7 @@ import preprocessor,helper
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+
 st.sidebar.title("Whatsapp Chat Analyzer")
 
 uploaded_file = st.sidebar.file_uploader("Choose a file")
@@ -22,22 +23,26 @@ if uploaded_file is not None:
     if st.sidebar.button("Show Analysis"):
 
         # Stats Area
-        num_messages, words, num_media_messages, num_links = helper.fetch_stats(selected_user,df)
-        st.title("Top Statistics")
+        num_messages, words, num_media_messages, num_links = helper.fetch_stats(selected_user, df)
+
+        st.markdown("<h1 style='text-align: center;'>Top Statistics</h1>", unsafe_allow_html=True)
         col1, col2, col3, col4 = st.columns(4)
 
         with col1:
-            st.header("Total Messages")
-            st.title(num_messages)
+            st.markdown("**Total Messages**", unsafe_allow_html=True)
+            st.markdown(f"<h4 style='margin-top:0px; color:#3366cc'>{num_messages}</h4>", unsafe_allow_html=True)
+
         with col2:
-            st.header("Total Words")
-            st.title(words)
+            st.markdown("**Total Words**", unsafe_allow_html=True)
+            st.markdown(f"<h4 style='margin-top:0px; color:#3366cc'>{words}</h4>", unsafe_allow_html=True)
+
         with col3:
-            st.header("Media Shared")
-            st.title(num_media_messages)
+            st.markdown("**Media Shared**", unsafe_allow_html=True)
+            st.markdown(f"<h4 style='margin-top:0px; color:#3366cc'>{num_media_messages}</h4>", unsafe_allow_html=True)
+
         with col4:
-            st.header("Links Shared")
-            st.title(num_links)
+            st.markdown("**Links Shared**", unsafe_allow_html=True)
+            st.markdown(f"<h4 style='margin-top:0px; color:#3366cc'>{num_links}</h4>", unsafe_allow_html=True)
 
         # monthly timeline
         st.title("Monthly Timeline")
@@ -115,18 +120,20 @@ if uploaded_file is not None:
         st.pyplot(fig)
 
         # emoji analysis
-        emoji_df = helper.emoji_helper(selected_user,df)
+        emoji_df = helper.emoji_helper(selected_user, df)
         st.title("Emoji Analysis")
 
-        col1,col2 = st.columns(2)
+        col1, col2 = st.columns([3, 4])  # Adjust the ratio to give more space
 
         with col1:
+            st.subheader("Emoji Frequency Table")
             st.dataframe(emoji_df)
-        with col2:
-            fig,ax = plt.subplots()
-            ax.pie(emoji_df[1].head(),labels=emoji_df[0].head(),autopct="%0.2f")
-            st.pyplot(fig)
 
+        with col2:
+            st.subheader("   Emoji Usage Distribution")
+            fig, ax = plt.subplots(figsize=(6, 6))
+            ax.pie(emoji_df['Count'].head(), labels=emoji_df['Emoji'].head(), autopct="%0.2f%%")
+            st.pyplot(fig)
 
 
 
