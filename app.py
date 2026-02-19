@@ -3,7 +3,7 @@ import preprocessor,helper
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-st.sidebar.title("Whatsapp Chat Analyzer")
+st.sidebar.title("Whatsapp Chat Analyzer/WhatsApp Chat Analysis")
 
 uploaded_file = st.sidebar.file_uploader("Choose a file")
 if uploaded_file is not None:
@@ -43,7 +43,7 @@ if uploaded_file is not None:
         st.title("Monthly Timeline")
         timeline = helper.monthly_timeline(selected_user,df)
         fig,ax = plt.subplots()
-        ax.plot(timeline['time'], timeline['message'],color='green')
+        ax.plot(timeline['time'], timeline['message'],color='red')
         plt.xticks(rotation='vertical')
         st.pyplot(fig)
 
