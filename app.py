@@ -2,6 +2,7 @@ import streamlit as st
 import preprocessor,helper
 import matplotlib.pyplot as plt
 import seaborn as sns
+import numpy as np
 
 st.sidebar.title("Whatsapp Chat Analyzer")
 
