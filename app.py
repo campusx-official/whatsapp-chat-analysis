@@ -13,7 +13,12 @@ if uploaded_file is not None:
 
     # fetch unique users
     user_list = df['user'].unique().tolist()
+
+    # Prevents error if group_notification is not present
+    if 'group_notification' in user_list:
     user_list.remove('group_notification')
+
+
     user_list.sort()
     user_list.insert(0,"Overall")
 
@@ -46,6 +51,7 @@ if uploaded_file is not None:
         ax.plot(timeline['time'], timeline['message'],color='green')
         plt.xticks(rotation='vertical')
         st.pyplot(fig)
+        plt.close(fig) # This prevents unnecessary Matplotlib figures from remaining in memory.
 
         # daily timeline
         st.title("Daily Timeline")
@@ -54,6 +60,7 @@ if uploaded_file is not None:
         ax.plot(daily_timeline['only_date'], daily_timeline['message'], color='black')
         plt.xticks(rotation='vertical')
         st.pyplot(fig)
+        plt.close(fig)
 
         # activity map
         st.title('Activity Map')
@@ -66,6 +73,7 @@ if uploaded_file is not None:
             ax.bar(busy_day.index,busy_day.values,color='purple')
             plt.xticks(rotation='vertical')
             st.pyplot(fig)
+            plt.close(fig)
 
         with col2:
             st.header("Most busy month")
@@ -74,12 +82,14 @@ if uploaded_file is not None:
             ax.bar(busy_month.index, busy_month.values,color='orange')
             plt.xticks(rotation='vertical')
             st.pyplot(fig)
+            plt.close(fig)
 
         st.title("Weekly Activity Map")
         user_heatmap = helper.activity_heatmap(selected_user,df)
         fig,ax = plt.subplots()
         ax = sns.heatmap(user_heatmap)
         st.pyplot(fig)
+        plt.close(fig)
 
         # finding the busiest users in the group(Group level)
         if selected_user == 'Overall':
@@ -93,6 +103,7 @@ if uploaded_file is not None:
                 ax.bar(x.index, x.values,color='red')
                 plt.xticks(rotation='vertical')
                 st.pyplot(fig)
+                plt.close(fig)
             with col2:
                 st.dataframe(new_df)
 
@@ -102,6 +113,7 @@ if uploaded_file is not None:
         fig,ax = plt.subplots()
         ax.imshow(df_wc)
         st.pyplot(fig)
+        plt.close(fig)
 
         # most common words
         most_common_df = helper.most_common_words(selected_user,df)
@@ -113,6 +125,7 @@ if uploaded_file is not None:
 
         st.title('Most commmon words')
         st.pyplot(fig)
+        plt.close(fig)
 
         # emoji analysis
         emoji_df = helper.emoji_helper(selected_user,df)
@@ -126,6 +139,7 @@ if uploaded_file is not None:
             fig,ax = plt.subplots()
             ax.pie(emoji_df[1].head(),labels=emoji_df[0].head(),autopct="%0.2f")
             st.pyplot(fig)
+            plt.close(fig)
 
 
 
