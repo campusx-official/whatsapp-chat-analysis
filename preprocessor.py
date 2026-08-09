@@ -1,22 +1,29 @@
 import re
 import pandas as pd
 
-def preprocess(data):
-    pattern = '\d{1,2}/\d{1,2}/\d{2,4},\s\d{1,2}:\d{2}\s-\s'
 
+def preprocess(data):
+    pattern = r'\d{1,2}/\d{1,2}/\d{2,4},\s\d{1,2}:\d{2}\s?(?:AM|PM)?\s-\s'
     messages = re.split(pattern, data)[1:]
     dates = re.findall(pattern, data)
 
     df = pd.DataFrame({'user_message': messages, 'message_date': dates})
+
     # convert message_date type
-    df['message_date'] = pd.to_datetime(df['message_date'], format='%d/%m/%Y, %H:%M - ')
+    df['message_date'] = df['message_date'].str.replace(' - ', '', regex=False)
+    df['message_date'] = pd.to_datetime(
+        df['message_date'],
+        dayfirst=True
+    )
 
     df.rename(columns={'message_date': 'date'}, inplace=True)
 
     users = []
     messages = []
+
     for message in df['user_message']:
-        entry = re.split('([\w\W]+?):\s', message)
+        entry = re.split(r'([\w\W]+?):\s', message)
+
         if entry[1:]:  # user name
             users.append(entry[1])
             messages.append(" ".join(entry[2:]))
@@ -38,7 +45,8 @@ def preprocess(data):
     df['minute'] = df['date'].dt.minute
 
     period = []
-    for hour in df[['day_name', 'hour']]['hour']:
+
+    for hour in df['hour']:
         if hour == 23:
             period.append(str(hour) + "-" + str('00'))
         elif hour == 0:
@@ -48,4 +56,4 @@ def preprocess(data):
 
     df['period'] = period
 
-    return df
+    return df
