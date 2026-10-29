@@ -118,6 +118,7 @@ if uploaded_file is not None:
         emoji_df = helper.emoji_helper(selected_user,df)
         st.title("Emoji Analysis")
 
+# beta_columns() not work. replaced by columns()
         col1,col2 = st.columns(2)
 
         with col1:
